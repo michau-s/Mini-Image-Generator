@@ -15,9 +15,9 @@ The result of the command can then be piped into *processing commands* such as
 
 that modify it or output the result into a file:
 ```
-Generate 10 | Blur 4 4 | Output Image
+Generate 10 1024 1024 | Blur 4 4 | Output Image
 ``` 
-The following chain of commands generates 10 images, blurs them with radius 4 vertically and horizontally and saves them as "Image1.jpeg", "Image2.jpeg", ... , "Image10.jpeg"
+The following chain of commands generates 10 1024x1024 images, blurs them with radius 4 vertically and horizontally and saves them as "Image1.jpeg", "Image2.jpeg", ... , "Image10.jpeg"
 
 ### Command chains
 The user enters a *generating command* and its arguments, followed by 0 or more *processing commands* and their respective arguments. Commands are separated by the `|` (pipe) character.
