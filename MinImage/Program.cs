@@ -20,7 +20,6 @@ namespace Frontend
                 return;
             }
 
-            /*
             var tasks = new List<Task>();
             for (int i = 0; i < 10; i++)
             {
@@ -29,16 +28,17 @@ namespace Frontend
                 tasks.Add(Task.Run(async () =>
                 {
                     var generator = new ImageGenerator();
+                    var processor = new ImageProcesser();
                     var misc = new MiscellaneousCommands();
 
                     var image = await generator.Generate(1024, 1024);
+                    image = await processor.BlurImage(image, 1024, 1024, 50, 50);
                     misc.Output(image, 1024, 1024, $"./image{index}.jpeg");
 
                 }));
             }
 
             await Task.WhenAll(tasks);
-            */
         }
     }
 }
