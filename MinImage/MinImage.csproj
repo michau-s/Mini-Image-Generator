@@ -5,10 +5,18 @@
     <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <Platforms>AnyCPU;x64</Platforms>
   </PropertyGroup>
 
 
   <ItemGroup>
   	<PackageReference Include="SixLabors.ImageSharp" Version="3.1.6" />
   </ItemGroup>
+
+	<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<!-- path to dll, path to InteroperabilityCsharp's wroking dir -->
+		<Copy SourceFiles="$(SolutionDir)$(Platform)\$(Configuration)\ImageGenerator.dll" DestinationFolder="$(OutputPath)" />
+	</Target>
+	
 </Project>
