@@ -16,7 +16,7 @@ namespace Frontend
             var parser = new InputParser();
             if (!parser.parseInput(input))
             {
-                Console.WriteLine($"Invalid Syntax!");
+                Console.WriteLine($"Invalid Syntax! Use `Help`");
                 return;
             }
 
