@@ -8,8 +8,19 @@ namespace Frontend
     {
         static async Task Main(string[] args)
         {
+            Console.WriteLine("Enter a command chain in the form:");
+            Console.WriteLine("generating_command arg1 arg2 | processing_command1 | processing_command2 arg1 arg2");
+            Console.WriteLine("Or type 'Help' for the list of available commands");
 
+            var input = Console.ReadLine() ?? "";
+            var parser = new InputParser();
+            if (!parser.parseInput(input))
+            {
+                Console.WriteLine($"Invalid Syntax!");
+                return;
+            }
 
+            /*
             var tasks = new List<Task>();
             for (int i = 0; i < 10; i++)
             {
@@ -27,6 +38,7 @@ namespace Frontend
             }
 
             await Task.WhenAll(tasks);
+            */
         }
     }
 }
