@@ -13,6 +13,7 @@ namespace Frontend
             var misc = new MiscellaneousCommands();
             misc.Output(image, 1024, 1024, $"./image1.jpeg");
             misc.Help();
+            misc.FreeImage(image);
         }
     }
 }

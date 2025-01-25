@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using ImSh = SixLabors.ImageSharp;
@@ -55,6 +56,11 @@ Processing commands:
     ColorCorrection <red> <green> <blue>    - Apply color correction.
     GammaCorrection <gamma>                 - Apply Gamma correction.
 ");
+        }
+
+        public void FreeImage(IntPtr texture)
+        {
+            Marshal.FreeHGlobal(texture);
         }
     }
 }
