@@ -9,18 +9,19 @@ using ImSh = SixLabors.ImageSharp;
 
 namespace MinImage
 {
-    static partial class ImageGenerator
+    [StructLayout(LayoutKind.Sequential)]
+    struct MyColor
+    {
+        public byte r;
+        public byte g;
+        public byte b;
+        public byte a;
+    }
+    
+    partial class ImageGenerator
     {
         private const string LibName = "ImageGenerator";
 
-        [StructLayout(LayoutKind.Sequential)]
-        private struct MyColor
-        {
-            public byte r;
-            public byte g;
-            public byte b;
-            public byte a;
-        }
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate bool TryReportCallback(float progress);
@@ -28,7 +29,7 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void GenerateImage(IntPtr array, int width, int height, TryReportCallback tryReportCallback);
 
-        public static void Generate(int width, int height)
+        public async Task<IntPtr> Generate(int width, int height)
         {
             int size = width * height * Marshal.SizeOf(typeof(MyColor));
             IntPtr texture = new IntPtr();
@@ -42,37 +43,16 @@ namespace MinImage
                     return true;
                 }
 
-                GenerateImage(texture, width, height, Progres);
+                await Task.Run(() => GenerateImage(texture, width, height, Progres));
+                
+                return texture;
 
-                // from the starter code
-                ImSh.Image<ImSh::PixelFormats.Rgba32> image = new(width, height);
-                image.DangerousTryGetSinglePixelMemory(out Memory<ImSh::PixelFormats.Rgba32> memory);
-                var span = memory.Span;
-
-                unsafe
-                {
-                    MyColor* pixels = (MyColor*)texture;
-                    for (int i = 0; i < width; i++)
-                    {
-                        for (int j = 0; j < height; j++)
-                        {
-                            span[i * width + j].R = pixels[i * width + j].r;
-                            span[i * width + j].G = pixels[i * width + j].g;
-                            span[i * width + j].B = pixels[i * width + j].b;
-                            span[i * width + j].A = pixels[i * width + j].a;
-                        }
-                    }
-                }
-
-                // from the starter code
-                ImSh.Formats.Jpeg.JpegEncoder encoder = new();
-                FileStream fs = new($"./Image_0.jpeg", FileMode.OpenOrCreate, FileAccess.Write);
-                encoder.Encode(image, fs);
-                image.Dispose();
             }
-            finally
+            catch (Exception)
             {
+                Console.WriteLine($"An exception occure while generating an image");
                 Marshal.FreeHGlobal(texture);
+                throw;
             }
         }
     }

@@ -6,9 +6,13 @@ namespace Frontend
 {
     internal partial class Program
     {
-        static void Main(string[] args)
+        static async Task Main(string[] args)
         {
-            ImageGenerator.Generate(1024, 1024);
+            var generator = new ImageGenerator();
+            var image = await generator.Generate(1024, 1024);
+            var misc = new MiscellaneousCommands();
+            misc.Output(image, 1024, 1024, $"./image1.jpeg");
+            misc.Help();
         }
     }
 }
