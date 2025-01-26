@@ -1,6 +1,7 @@
 ﻿using SixLabors.ImageSharp.PixelFormats;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -24,7 +25,6 @@ namespace MinImage
     partial class ImageGenerator
     {
         private const string LibName = "ImageGenerator";
-
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate bool TryReportCallback(float progress);

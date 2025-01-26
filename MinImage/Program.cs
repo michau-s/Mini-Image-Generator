@@ -4,6 +4,15 @@ using ImSh = SixLabors.ImageSharp;
 
 namespace Frontend
 {
+    /*
+     For testing:
+
+    Generate 10 1000 1000 | Blur 4 4 | ColorCorrection 0,5 0,5 0,5 | GammaCorrection 0,5 | Help | RandomCircles 10 50 | Room 0,4 0,5 0,1 0,6 | Output test
+
+    Input ./test1.jpeg | Blur 40 40 |  Blur 40 40 | Blur 40 40 | Blur 40 40 | Blur 40 40 | Blur 40 40 | Blur 40 40 | Output out
+     
+     */
+
     internal partial class Program
     {
         static async Task Main(string[] args)
