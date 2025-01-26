@@ -25,11 +25,11 @@ namespace MinImage
                 return false;
             }
 
-            var procCommands = input.Split('|').Select(x => x.Trim()).Skip(1).ToArray();
+            var procCommands = input.Split('|').Select(x => x.Trim()).ToArray();
 
             foreach (var command in procCommands)
             {
-                if (!isValidProcCommand(command))
+                if (!isValidCommand(command))
                 {
                     return false;
                 }
@@ -52,27 +52,27 @@ namespace MinImage
             return startsWithGen;
         }
 
-        private bool isValidProcCommand(string command)
+        private bool isValidCommand(string command)
         {
             var split = command.Split(' ');
             //TODO: add custom gen and proc commands
             switch (split[0])
             {
-                //case "Generate":
-                //    if (split.Length != 4
-                //        || !int.TryParse(split[1], out int width)
-                //        || !int.TryParse(split[2], out int height))
-                //    {
-                //        return false;
-                //    }
-                //    break;
-                //case "Input":
-                //    //TODO: Implement checking if the file exists
-                //    if (split.Length != 2)
-                //    {
-                //        return false;
-                //    }
-                //    break;
+                case "Generate":
+                    if (split.Length != 4
+                        || !int.TryParse(split[1], out int width)
+                        || !int.TryParse(split[2], out int height))
+                    {
+                        return false;
+                    }
+                    break;
+                case "Input":
+                    //TODO: Implement checking if the file exists
+                    if (split.Length != 2)
+                    {
+                        return false;
+                    }
+                    break;
                 case "Output":
                     if (split.Length != 2)
                     {
@@ -81,8 +81,8 @@ namespace MinImage
                     break;
                 case "Blur":
                     if (split.Length != 3
-                        || !int.TryParse(split[1], out int width)
-                        || !int.TryParse(split[2], out int height))
+                        || !int.TryParse(split[1], out int w)
+                        || !int.TryParse(split[2], out int h))
                     {
                         return false;
                     }
@@ -116,6 +116,13 @@ namespace MinImage
                     break;
                 case "GammaCorrection":
                     if (split.Length != 2 || !int.TryParse(split[1], out int gamma))
+                    {
+                        return false;
+                    }
+                    break;
+
+                case "Help":
+                    if (split.Length != 1)
                     {
                         return false;
                     }

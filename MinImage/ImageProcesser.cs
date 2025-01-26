@@ -17,7 +17,7 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void Blur(IntPtr array, int width, int height, int w, int h, TryReportCallback tryReportCallback);
 
-        public async Task<IntPtr> BlurImage(IntPtr texture, int width, int height, int w, int h)
+        public IntPtr BlurImage(IntPtr texture, int width, int height, int w, int h)
         {
             try
             {
@@ -26,7 +26,7 @@ namespace MinImage
                     return true;
                 }
 
-                await Task.Run(() => Blur(texture, width, height, w, h, Progres));
+                Blur(texture, width, height, w, h, Progres);
 
                 return texture;
             }

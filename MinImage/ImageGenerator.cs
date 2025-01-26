@@ -29,7 +29,7 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void GenerateImage(IntPtr array, int width, int height, TryReportCallback tryReportCallback);
 
-        public async Task<IntPtr> Generate(int width, int height)
+        public IntPtr Generate(int width, int height)
         {
             int size = width * height * Marshal.SizeOf(typeof(MyColor));
             IntPtr texture = new IntPtr();
@@ -43,7 +43,7 @@ namespace MinImage
                     return true;
                 }
 
-                await Task.Run(() => GenerateImage(texture, width, height, Progres));
+                GenerateImage(texture, width, height, Progres);
                 
                 return texture;
 

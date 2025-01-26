@@ -55,6 +55,8 @@ Processing commands:
     Room <x1> <y1> <x2> <y2>                - Draw a filled rectangle with the given coordinates. The coordinates range from 0 to 1.
     ColorCorrection <red> <green> <blue>    - Apply color correction.
     GammaCorrection <gamma>                 - Apply Gamma correction.
+    Exit                                    - Exit the program.
+
 ");
         }
 
