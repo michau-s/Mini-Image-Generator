@@ -111,7 +111,7 @@ namespace Frontend
                                 break;
                             case "GammaCorrection":
                                 float.TryParse(split[1], out float gamma);
-                                
+                                Texture = processor.GammaCorrectionImage(Texture, width, height, gamma);
                                 
                                 break;
 

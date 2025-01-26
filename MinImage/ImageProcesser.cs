@@ -105,5 +105,29 @@ namespace MinImage
                 throw;
             }
         }
+
+        [LibraryImport(LibName)]
+        static partial void GammaCorrection(IntPtr texture, int width, int height, float gamma, TryReportCallback tryReportCallback);
+
+        public IntPtr GammaCorrectionImage(IntPtr texture, int width, int height, float gamma)
+        {
+            try
+            {
+                bool Progres(float progress)
+                {
+                    return true;
+                }
+
+                GammaCorrection(texture, width, height, gamma, Progres);
+
+                return texture;
+            }
+            catch (Exception)
+            {
+                Console.WriteLine($"An exception occured while applying gamma correction");
+                Marshal.FreeHGlobal(texture);
+                throw;
+            }
+        }
     }
 }
