@@ -81,7 +81,9 @@ namespace MinImage
                 case "Generate":
                     if (split.Length != 4
                         || !int.TryParse(split[1], out int width)
-                        || !int.TryParse(split[2], out int height))
+                        || !int.TryParse(split[2], out int height)
+                        || width < 0
+                        || height < 0)
                     {
                         return false;
                     }
@@ -101,7 +103,9 @@ namespace MinImage
                 case "Blur":
                     if (split.Length != 3
                         || !int.TryParse(split[1], out int w)
-                        || !int.TryParse(split[2], out int h))
+                        || !int.TryParse(split[2], out int h)
+                        || w < 0
+                        || h < 0)
                     {
                         return false;
                     }
@@ -109,7 +113,9 @@ namespace MinImage
                 case "RandomCircles":
                     if (split.Length != 3
                         || !int.TryParse(split[1], out int n)
-                        || !float.TryParse(split[2], out float r))
+                        || !float.TryParse(split[2], out float r)
+                        || n < 0
+                        || r < 0)
                     {
                         return false;
                     }
@@ -119,7 +125,15 @@ namespace MinImage
                         || !float.TryParse(split[1], out float x1)
                         || !float.TryParse(split[2], out float y1)
                         || !float.TryParse(split[3], out float x2)
-                        || !float.TryParse(split[4], out float y2))
+                        || !float.TryParse(split[4], out float y2)
+                        || x1 < 0
+                        || x2 < 0
+                        || y1 < 0
+                        || y2 < 0
+                        || x1 > 1
+                        || x2 > 1
+                        || y1 > 1
+                        || y2 > 1)
                     {
                         return false;
                     }
@@ -128,13 +142,19 @@ namespace MinImage
                     if (split.Length != 4
                         || !float.TryParse(split[1], out float red)
                         || !float.TryParse(split[2], out float green)
-                        || !float.TryParse(split[3], out float blue))
+                        || !float.TryParse(split[3], out float blue)
+                        || red < 0
+                        || green < 0
+                        || blue < 0
+                        || red > 1
+                        || green > 1
+                        || blue > 1)
                     {
                         return false;
                     }
                     break;
                 case "GammaCorrection":
-                    if (split.Length != 2 || !float.TryParse(split[1], out float gamma))
+                    if (split.Length != 2 || !float.TryParse(split[1], out float gamma) || gamma < 0 || gamma > 1)
                     {
                         return false;
                     }

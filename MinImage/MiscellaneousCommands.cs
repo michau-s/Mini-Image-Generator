@@ -103,8 +103,8 @@ Processing commands:
     Blur <w> <h>                            - Apply a <w>x<h> blur.
     RandomCircles <n> <r>                   - Add <n> circles of radius <r> placed randomly on the images.
     Room <x1> <y1> <x2> <y2>                - Draw a filled rectangle with the given coordinates. The coordinates range from 0 to 1.
-    ColorCorrection <red> <green> <blue>    - Apply color correction.
-    GammaCorrection <gamma>                 - Apply Gamma correction.
+    ColorCorrection <red> <green> <blue>    - Apply color correction. (values [0-1])
+    GammaCorrection <gamma>                 - Apply Gamma correction. (values [0-1])
 
 Misc:
     Exit                                    - Exit the program.

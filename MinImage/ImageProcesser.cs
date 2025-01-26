@@ -128,6 +128,8 @@ namespace MinImage
 
         /// <summary>
         /// returns a color corrected image
+        /// 
+        /// colors need to be between 0 and 1
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="width"></param>
@@ -168,6 +170,8 @@ namespace MinImage
 
         /// <summary>
         /// returns a gamma corrected image
+        /// 
+        /// gamma needs to be between 0 and 1
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="width"></param>
@@ -206,6 +210,8 @@ namespace MinImage
 
         /// <summary>
         /// returns an image with a rectangle drawn at the specified coordinates
+        /// 
+        /// Coordinates are expressed as percentage of the image
         /// </summary>
         /// <param name="texture"></param>
         /// <param name="width"></param>
