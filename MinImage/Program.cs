@@ -11,6 +11,7 @@ namespace Frontend
             var input = "";
             var parser = new InputParser();
             var misc = new MiscellaneousCommands();
+            var cancellationTokenSource = new CancellationTokenSource();
 
             while (true)
             {
@@ -38,6 +39,18 @@ namespace Frontend
                 }
             }
 
+            Task.Run(() =>
+            {
+                while(true)
+                {
+                    if (Console.ReadKey(true).Key == ConsoleKey.X )
+                    {
+                        cancellationTokenSource.Cancel();
+                        break;
+                    }
+                }
+            });
+
             var commands = input.Split('|').Select(x => x.Trim()).ToArray();
 
             int n = 1;
@@ -47,6 +60,8 @@ namespace Frontend
             }
 
             var tasks = new List<Task>();
+
+            Console.WriteLine($"Press 'x' to cancel processing");
 
             for (int i = 0; i < n; i++)
             {
@@ -64,6 +79,12 @@ namespace Frontend
 
                     foreach (var command in commands)
                     {
+                        if (cancellationTokenSource.IsCancellationRequested)
+                        {
+                            Console.WriteLine($"Cancelling Image {index}");
+                            return;
+                        }
+                        
                         var split = command.Split(' ');
 
                         switch (split[0])
@@ -71,7 +92,7 @@ namespace Frontend
                             case "Generate":
                                 int.TryParse(split[2], out width);
                                 int.TryParse(split[3], out height);
-                                Texture = generator.Generate(width, height);
+                                Texture = generator.Generate(width, height, cancellationTokenSource.Token);
                                 break;
                             case "Input":
                                 //TODO: Implement checking if the file exists
@@ -85,13 +106,13 @@ namespace Frontend
                             case "Blur":
                                 int.TryParse(split[1], out int w);
                                 int.TryParse(split[2], out int h);
-                                Texture = processor.BlurImage(Texture, width, height, w, h);
+                                Texture = processor.BlurImage(Texture, width, height, w, h, cancellationTokenSource.Token);
                                 
                                 break;
                             case "RandomCircles":
                                 int.TryParse(split[1], out int n);
                                 float.TryParse(split[2], out float r);
-                                Texture = processor.DrawCirclesImage(Texture, width, height, r, n);
+                                Texture = processor.DrawCirclesImage(Texture, width, height, r, n, cancellationTokenSource.Token);
                                 
                                 break;
                             case "Room":
@@ -99,19 +120,19 @@ namespace Frontend
                                 float.TryParse(split[2], out float y1);
                                 float.TryParse(split[3], out float x2);
                                 float.TryParse(split[4], out float y2);
-                                Texture = processor.Room(Texture, width, height, x1, y1, x2, y2);
+                                Texture = processor.Room(Texture, width, height, x1, y1, x2, y2, cancellationTokenSource.Token);
                                 
                                 break;
                             case "ColorCorrection":
                                 float.TryParse(split[1], out float red);
                                 float.TryParse(split[2], out float green);
                                 float.TryParse(split[3], out float blue);
-                                Texture = processor.ColorCorrectionImage(Texture, width, height, red, green, blue);
+                                Texture = processor.ColorCorrectionImage(Texture, width, height, red, green, blue, cancellationTokenSource.Token);
                                 
                                 break;
                             case "GammaCorrection":
                                 float.TryParse(split[1], out float gamma);
-                                Texture = processor.GammaCorrectionImage(Texture, width, height, gamma);
+                                Texture = processor.GammaCorrectionImage(Texture, width, height, gamma, cancellationTokenSource.Token);
                                 
                                 break;
 

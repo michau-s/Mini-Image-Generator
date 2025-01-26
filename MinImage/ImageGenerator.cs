@@ -29,7 +29,7 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void GenerateImage(IntPtr array, int width, int height, TryReportCallback tryReportCallback);
 
-        public IntPtr Generate(int width, int height)
+        public IntPtr Generate(int width, int height, CancellationToken cancellationToken)
         {
             int size = width * height * Marshal.SizeOf(typeof(MyColor));
             IntPtr texture = new IntPtr();
@@ -40,6 +40,11 @@ namespace MinImage
             {
                 bool Progres(float progress)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        Console.WriteLine($"Cancelled generating");
+                        return false;
+                    }
                     return true;
                 }
 

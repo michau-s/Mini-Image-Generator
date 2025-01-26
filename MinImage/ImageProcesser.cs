@@ -4,6 +4,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace MinImage
@@ -29,12 +30,17 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void Blur(IntPtr array, int width, int height, int w, int h, TryReportCallback tryReportCallback);
 
-        public IntPtr BlurImage(IntPtr texture, int width, int height, int w, int h)
+        public IntPtr BlurImage(IntPtr texture, int width, int height, int w, int h, CancellationToken cancellationToken)
         {
             try
             {
                 bool Progres(float progress)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        Console.WriteLine($"Cancelled blurring");
+                        return false;
+                    }
                     return true;
                 }
 
@@ -53,7 +59,7 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void DrawCircles(IntPtr texture, int width, int height, Circle[] circles, int circleCount, TryReportCallback tryReport);
 
-        public IntPtr DrawCirclesImage(IntPtr texture, int width, int height, float radius, int circleCount)
+        public IntPtr DrawCirclesImage(IntPtr texture, int width, int height, float radius, int circleCount, CancellationToken cancellationToken)
         {
 
             try
@@ -70,6 +76,11 @@ namespace MinImage
 
                 bool Progres(float progress)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        Console.WriteLine($"Cancelled drawing circles");
+                        return false;
+                    }
                     return true;
                 }
 
@@ -88,12 +99,17 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void ColorCorrection(IntPtr texture, int width, int height, float red, float green, float blue, TryReportCallback tryReportCallback);
 
-        public IntPtr ColorCorrectionImage(IntPtr texture, int width, int height, float red, float green, float blue)
+        public IntPtr ColorCorrectionImage(IntPtr texture, int width, int height, float red, float green, float blue, CancellationToken cancellationToken)
         {
             try
             {
                 bool Progres(float progress)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        Console.WriteLine($"Cancelled color correction");
+                        return false;
+                    }
                     return true;
                 }
 
@@ -112,12 +128,17 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void GammaCorrection(IntPtr texture, int width, int height, float gamma, TryReportCallback tryReportCallback);
 
-        public IntPtr GammaCorrectionImage(IntPtr texture, int width, int height, float gamma)
+        public IntPtr GammaCorrectionImage(IntPtr texture, int width, int height, float gamma, CancellationToken cancellationToken)
         {
             try
             {
                 bool Progres(float progress)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        Console.WriteLine($"Cancelled gamma correction");
+                        return false;
+                    }
                     return true;
                 }
 
@@ -136,7 +157,7 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void ProcessPixels_Custom(IntPtr texture, int width, int height, GetColor getColor, TryReportCallback tryReportCallback);
 
-        public IntPtr Room(IntPtr texture, int width, int height, float x1, float y1, float x2, float y2)
+        public IntPtr Room(IntPtr texture, int width, int height, float x1, float y1, float x2, float y2, CancellationToken cancellationToken)
         {
             if (x1 > x2)
             {
@@ -173,6 +194,11 @@ namespace MinImage
             {
                 bool Progres(float progress)
                 {
+                    if (cancellationToken.IsCancellationRequested)
+                    {
+                        Console.WriteLine($"Cancelled drawing rectangle");
+                        return false;
+                    }
                     return true;
                 }
 
