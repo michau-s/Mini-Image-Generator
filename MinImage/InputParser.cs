@@ -97,10 +97,10 @@ namespace MinImage
                     break;
                 case "Room":
                     if (split.Length != 5
-                        || !int.TryParse(split[1], out int x1)
-                        || !int.TryParse(split[2], out int y1)
-                        || !int.TryParse(split[3], out int x2)
-                        || !int.TryParse(split[4], out int y2))
+                        || !float.TryParse(split[1], out float x1)
+                        || !float.TryParse(split[2], out float y1)
+                        || !float.TryParse(split[3], out float x2)
+                        || !float.TryParse(split[4], out float y2))
                     {
                         return false;
                     }
