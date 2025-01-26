@@ -38,7 +38,6 @@ namespace Frontend
                 }
             }
 
-
             var commands = input.Split('|').Select(x => x.Trim()).ToArray();
 
             int n = 1;
@@ -92,7 +91,7 @@ namespace Frontend
                             case "RandomCircles":
                                 int.TryParse(split[1], out int n);
                                 int.TryParse(split[2], out int r);
-                                
+                                Texture = processor.DrawCirclesImage(Texture, width, height, r, n);
                                 
                                 break;
                             case "Room":
@@ -104,14 +103,14 @@ namespace Frontend
                                 
                                 break;
                             case "ColorCorrection":
-                                int.TryParse(split[1], out int red);
-                                int.TryParse(split[2], out int green);
-                                int.TryParse(split[3], out int blue);
-                                
+                                float.TryParse(split[1], out float red);
+                                float.TryParse(split[2], out float green);
+                                float.TryParse(split[3], out float blue);
+                                Texture = processor.ColorCorrectionImage(Texture, width, height, red, green, blue);
                                 
                                 break;
                             case "GammaCorrection":
-                                int.TryParse(split[1], out int gamma);
+                                float.TryParse(split[1], out float gamma);
                                 
                                 
                                 break;
@@ -120,6 +119,8 @@ namespace Frontend
                                 break;
                         }
                     }
+
+                    misc.FreeImage(Texture);
                 }));
             }
 

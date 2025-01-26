@@ -107,15 +107,15 @@ namespace MinImage
                     break;
                 case "ColorCorrection":
                     if (split.Length != 4
-                        || !int.TryParse(split[1], out int red)
-                        || !int.TryParse(split[2], out int green)
-                        || !int.TryParse(split[3], out int blue))
+                        || !float.TryParse(split[1], out float red)
+                        || !float.TryParse(split[2], out float green)
+                        || !float.TryParse(split[3], out float blue))
                     {
                         return false;
                     }
                     break;
                 case "GammaCorrection":
-                    if (split.Length != 2 || !int.TryParse(split[1], out int gamma))
+                    if (split.Length != 2 || !float.TryParse(split[1], out float gamma))
                     {
                         return false;
                     }
