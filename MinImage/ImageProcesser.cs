@@ -17,6 +17,9 @@ namespace MinImage
         public float radius;
     }
 
+    /// <summary>
+    /// Class handling image processing
+    /// </summary>
     partial class ImageProcesser
     {
         private const string LibName = "ImageGenerator";
@@ -29,7 +32,17 @@ namespace MinImage
 
         [LibraryImport(LibName)]
         static partial void Blur(IntPtr array, int width, int height, int w, int h, TryReportCallback tryReportCallback);
-
+        
+        /// <summary>
+        /// Returns a blurred image
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="w"></param>
+        /// <param name="h"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public IntPtr BlurImage(IntPtr texture, int width, int height, int w, int h, CancellationToken cancellationToken)
         {
             try
@@ -59,6 +72,16 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void DrawCircles(IntPtr texture, int width, int height, Circle[] circles, int circleCount, TryReportCallback tryReport);
 
+        /// <summary>
+        /// Draws random circles on top the image, returns a new image
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="radius"></param>
+        /// <param name="circleCount"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public IntPtr DrawCirclesImage(IntPtr texture, int width, int height, float radius, int circleCount, CancellationToken cancellationToken)
         {
 
@@ -99,6 +122,17 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void ColorCorrection(IntPtr texture, int width, int height, float red, float green, float blue, TryReportCallback tryReportCallback);
 
+        /// <summary>
+        /// returns a color corrected image
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="red"></param>
+        /// <param name="green"></param>
+        /// <param name="blue"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public IntPtr ColorCorrectionImage(IntPtr texture, int width, int height, float red, float green, float blue, CancellationToken cancellationToken)
         {
             try
@@ -128,6 +162,15 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void GammaCorrection(IntPtr texture, int width, int height, float gamma, TryReportCallback tryReportCallback);
 
+        /// <summary>
+        /// returns a gamma corrected image
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="gamma"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public IntPtr GammaCorrectionImage(IntPtr texture, int width, int height, float gamma, CancellationToken cancellationToken)
         {
             try
@@ -157,6 +200,18 @@ namespace MinImage
         [LibraryImport(LibName)]
         static partial void ProcessPixels_Custom(IntPtr texture, int width, int height, GetColor getColor, TryReportCallback tryReportCallback);
 
+        /// <summary>
+        /// returns an image with a rectangle drawn at the specified coordinates
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="x1"></param>
+        /// <param name="y1"></param>
+        /// <param name="x2"></param>
+        /// <param name="y2"></param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         public IntPtr Room(IntPtr texture, int width, int height, float x1, float y1, float x2, float y2, CancellationToken cancellationToken)
         {
             if (x1 > x2)

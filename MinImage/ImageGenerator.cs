@@ -18,6 +18,9 @@ namespace MinImage
         public byte a;
     }
     
+    /// <summary>
+    /// A class for "Generate" methods
+    /// </summary>
     partial class ImageGenerator
     {
         private const string LibName = "ImageGenerator";

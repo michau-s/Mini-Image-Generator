@@ -7,12 +7,22 @@ using System.Threading.Tasks;
 namespace MinImage
 {
     //TODO: Improve this class
+
+    /// <summary>
+    /// A class which handles command chain parsing
+    /// </summary>
     internal class InputParser
     {
         private readonly string[] generatingCommands = {"Generate", "Input", "CustomGen1", "CustomGen2", "CustomGen3"};
         private readonly string[] processingCommands = {"Output", "Blur", "RandomCircles", "Room", "ColorCorrection", "GammaCorrection", "CustomProc1", "CustomProc2", "CustomProc3" };
 
         //TODO: add custom exception to indicate where the syntax error occured;
+
+        /// <summary>
+        /// Main method providing an interface for command chain parsing
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public bool parseInput(string input)
         {
             if (input == "Help")
@@ -38,6 +48,11 @@ namespace MinImage
             return true;
         }
 
+        /// <summary>
+        /// Checks whether a command chain starts with a generating comamand
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         private bool startsWithGenerating(string input)
         {
             bool startsWithGen = false;
@@ -52,6 +67,11 @@ namespace MinImage
             return startsWithGen;
         }
 
+        /// <summary>
+        /// Checks whether a command chain is a valid command chain
+        /// </summary>
+        /// <param name="command"></param>
+        /// <returns></returns>
         private bool isValidCommand(string command)
         {
             var split = command.Split(' ');
@@ -67,7 +87,6 @@ namespace MinImage
                     }
                     break;
                 case "Input":
-                    //TODO: Implement checking if the file exists
                     if (split.Length != 2 || !File.Exists(split[1]))
                     {
                         return false;

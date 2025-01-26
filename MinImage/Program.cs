@@ -13,6 +13,7 @@ namespace Frontend
             var misc = new MiscellaneousCommands();
             var cancellationTokenSource = new CancellationTokenSource();
 
+            // Displaying the interface
             while (true)
             {
                 Console.WriteLine("Enter a command chain in the form:");
@@ -39,6 +40,7 @@ namespace Frontend
                 }
             }
 
+            // Thread for checking if cancellation was requested
             Task.Run(() =>
             {
                 while(true)
@@ -53,6 +55,8 @@ namespace Frontend
 
             var commands = input.Split('|').Select(x => x.Trim()).ToArray();
 
+            // If the first command is Generate, we need to run n tasks
+            // Otherwise, run 1 task
             int n = 1;
             if (commands[0].Split()[0] == "Generate")
             {
@@ -77,6 +81,7 @@ namespace Frontend
                     int width = 0;
                     int height = 0;
 
+                    // Processing each command one by one
                     foreach (var command in commands)
                     {
                         if (cancellationTokenSource.IsCancellationRequested)
@@ -95,7 +100,6 @@ namespace Frontend
                                 Texture = generator.Generate(width, height, cancellationTokenSource.Token);
                                 break;
                             case "Input":
-                                //TODO: Implement checking if the file exists
                                 Texture = misc.Input(split[1], out width, out height);
                                 
                                 break;

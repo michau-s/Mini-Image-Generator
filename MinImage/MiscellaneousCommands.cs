@@ -9,8 +9,18 @@ using ImSh = SixLabors.ImageSharp;
 
 namespace MinImage
 {
+    /// <summary>
+    /// Various commands that did not fit into any other class
+    /// </summary>
     internal class MiscellaneousCommands
     {
+        /// <summary>
+        /// Save an image to the disk at the specified path
+        /// </summary>
+        /// <param name="texture"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <param name="path"></param>
         public void Output(IntPtr texture, int width, int height, string path)
         {
             // from the starter code
@@ -40,6 +50,13 @@ namespace MinImage
             image.Dispose();
         }
         
+        /// <summary>
+        /// Input an image from the disk
+        /// </summary>
+        /// <param name="path"></param>
+        /// <param name="width"></param>
+        /// <param name="height"></param>
+        /// <returns></returns>
         public IntPtr Input(string path, out int width, out int height)
         {
             var image = ImSh.Image.Load<ImSh.PixelFormats.Rgba32>(path);
@@ -70,6 +87,9 @@ namespace MinImage
             return texture;
         }
 
+        /// <summary>
+        /// Display help
+        /// </summary>
         public void Help()
         {
             Console.Write(
@@ -90,6 +110,10 @@ Processing commands:
 ");
         }
 
+        /// <summary>
+        /// Helper function for freeing the image
+        /// </summary>
+        /// <param name="texture"></param>
         public void FreeImage(IntPtr texture)
         {
             Marshal.FreeHGlobal(texture);
