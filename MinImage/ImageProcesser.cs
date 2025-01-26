@@ -48,18 +48,24 @@ namespace MinImage
         }
 
         [LibraryImport(LibName)]
-        static partial void DrawCircles(IntPtr texture, int width, int height, IntPtr circles, int circleCount, TryReportCallback tryReport);
+        static partial void DrawCircles(IntPtr texture, int width, int height, Circle[] circles, int circleCount, TryReportCallback tryReport);
 
         //TODO: fix this
         public IntPtr DrawCirclesImage(IntPtr texture, int width, int height, float radius, int circleCount)
         {
 
-            int size = circleCount * Marshal.SizeOf(typeof(Circle));
-            IntPtr circles = Marshal.AllocHGlobal(size);
-
             try
             {
-            
+                var circles = new Circle[circleCount];
+                for (int i = 0; i < circleCount; i++)
+                {
+                    Random rand = new Random();
+                    circles[i] = new Circle();
+                    circles[i].x = rand.NextSingle();
+                    circles[i].y = rand.NextSingle();
+                    circles[i].radius = radius / width;
+                }
+
                 bool Progres(float progress)
                 {
                     return true;
@@ -75,13 +81,8 @@ namespace MinImage
                 Marshal.FreeHGlobal(texture);
                 throw;
             }
-            finally
-            {
-                Marshal.FreeHGlobal(circles);
-            }
         }
 
-        //TODO fix this??? It's the same as blur but it does not work
         [LibraryImport(LibName)]
         static partial void ColorCorrection(IntPtr texture, int width, int height, float red, float green, float blue, TryReportCallback tryReportCallback);
 

@@ -90,7 +90,7 @@ namespace MinImage
                 case "RandomCircles":
                     if (split.Length != 3
                         || !int.TryParse(split[1], out int n)
-                        || !int.TryParse(split[2], out int r))
+                        || !float.TryParse(split[2], out float r))
                     {
                         return false;
                     }

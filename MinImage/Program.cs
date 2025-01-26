@@ -90,7 +90,7 @@ namespace Frontend
                                 break;
                             case "RandomCircles":
                                 int.TryParse(split[1], out int n);
-                                int.TryParse(split[2], out int r);
+                                float.TryParse(split[2], out float r);
                                 Texture = processor.DrawCirclesImage(Texture, width, height, r, n);
                                 
                                 break;
