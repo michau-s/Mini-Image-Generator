@@ -75,7 +75,7 @@ namespace Frontend
                                 break;
                             case "Input":
                                 //TODO: Implement checking if the file exists
-                                
+                                Texture = misc.Input(split[1], out width, out height);
                                 
                                 break;
                             case "Output":

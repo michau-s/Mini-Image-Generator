@@ -39,6 +39,36 @@ namespace MinImage
             encoder.Encode(image, fs);
             image.Dispose();
         }
+        
+        public IntPtr Input(string path, out int width, out int height)
+        {
+            var image = ImSh.Image.Load<ImSh.PixelFormats.Rgba32>(path);
+            width = image.Width;
+            height = image.Height;
+
+            // from the starter code
+            int size = width * height * Marshal.SizeOf(typeof(MyColor));
+            IntPtr texture = Marshal.AllocHGlobal(size);
+            image.DangerousTryGetSinglePixelMemory(out Memory<ImSh::PixelFormats.Rgba32> memory);
+            var span = memory.Span;
+
+            unsafe
+            {
+                MyColor* pixels = (MyColor*)texture;
+                for (int i = 0; i < width; i++)
+                {
+                    for (int j = 0; j < height; j++)
+                    {
+                        pixels[i * width + j].r = span[i * width + j].R;
+                        pixels[i * width + j].g = span[i * width + j].G;
+                        pixels[i * width + j].b = span[i * width + j].B;
+                        pixels[i * width + j].a = span[i * width + j].A;
+                    }
+                }
+            }
+
+            return texture;
+        }
 
         public void Help()
         {

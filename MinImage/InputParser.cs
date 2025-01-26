@@ -68,7 +68,7 @@ namespace MinImage
                     break;
                 case "Input":
                     //TODO: Implement checking if the file exists
-                    if (split.Length != 2)
+                    if (split.Length != 2 || !File.Exists(split[1]))
                     {
                         return false;
                     }
