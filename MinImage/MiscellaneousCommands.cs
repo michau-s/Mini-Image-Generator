@@ -25,10 +25,10 @@ namespace MinImage
                 {
                     for (int j = 0; j < height; j++)
                     {
-                        span[i * width + j].R = pixels[i * width + j].r;
-                        span[i * width + j].G = pixels[i * width + j].g;
-                        span[i * width + j].B = pixels[i * width + j].b;
-                        span[i * width + j].A = pixels[i * width + j].a;
+                        span[i * height + j].R = pixels[i * height + j].r;
+                        span[i * height + j].G = pixels[i * height + j].g;
+                        span[i * height + j].B = pixels[i * height + j].b;
+                        span[i * height + j].A = pixels[i * height + j].a;
                     }
                 }
             }
@@ -59,10 +59,10 @@ namespace MinImage
                 {
                     for (int j = 0; j < height; j++)
                     {
-                        pixels[i * width + j].r = span[i * width + j].R;
-                        pixels[i * width + j].g = span[i * width + j].G;
-                        pixels[i * width + j].b = span[i * width + j].B;
-                        pixels[i * width + j].a = span[i * width + j].A;
+                        pixels[i * height + j].r = span[i * height + j].R;
+                        pixels[i * height + j].g = span[i * height + j].G;
+                        pixels[i * height + j].b = span[i * height + j].B;
+                        pixels[i * height + j].a = span[i * height + j].A;
                     }
                 }
             }
