@@ -39,6 +39,10 @@ namespace Frontend
                 {
                     return;
                 }
+                else if (input == "Clear")
+                {
+                    Console.Clear();
+                }
                 else if (!parser.parseInput(input))
                 {
                     Console.WriteLine($"Invalid Syntax! Use `Help`");
