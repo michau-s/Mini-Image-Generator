@@ -70,7 +70,18 @@ namespace Frontend
 
             // Starting the work
             var tasks = new List<Task>();
-            reporter.Init(n, commands.Length);
+            int count = commands.Length;
+            
+            //Skipping irrelevant commands in the progress bar
+            foreach(var command in commands)
+            {
+                if (command.Split()[0] == "Help" || command.Split()[0] == "Output" || command.Split()[0] == "Input")
+                {
+                    count--;
+                }
+            }
+
+            reporter.Init(n, count);
             Console.Clear();
             Console.CursorVisible = false;
 
