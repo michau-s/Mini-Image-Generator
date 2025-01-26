@@ -26,13 +26,16 @@ namespace MinImage
     {
         private const string LibName = "ImageGenerator";
 
+        // Event to handle the progress bar
+        public event Action<int, int>? progressUpdated;
+
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate bool TryReportCallback(float progress);
 
         [LibraryImport(LibName)]
         static partial void GenerateImage(IntPtr array, int width, int height, TryReportCallback tryReportCallback);
 
-        public IntPtr Generate(int width, int height, CancellationToken cancellationToken)
+        public IntPtr Generate(int width, int height, CancellationToken cancellationToken, int index)
         {
             int size = width * height * Marshal.SizeOf(typeof(MyColor));
             IntPtr texture = new IntPtr();
@@ -45,9 +48,9 @@ namespace MinImage
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
-                        Console.WriteLine($"Cancelled generating");
                         return false;
                     }
+                    progressUpdated?.Invoke(index, (int)(progress * 100));
                     return true;
                 }
 

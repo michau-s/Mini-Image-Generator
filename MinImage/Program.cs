@@ -21,6 +21,7 @@ namespace Frontend
             var parser = new InputParser();
             var misc = new MiscellaneousCommands();
             var cancellationTokenSource = new CancellationTokenSource();
+            var reporter = new ProgressReporter();
 
             // Displaying the interface
             while (true)
@@ -73,8 +74,8 @@ namespace Frontend
             }
 
             var tasks = new List<Task>();
-
-            Console.WriteLine($"Press 'x' to cancel processing");
+            reporter.Init(n, commands.Length);
+            Console.Clear();
 
             for (int i = 0; i < n; i++)
             {
@@ -86,6 +87,19 @@ namespace Frontend
                     var processor = new ImageProcesser();
                     var misc = new MiscellaneousCommands();
 
+                    // Subscribing to the reporter
+                    // The misc class does not need to subscribe
+                    // as we don't really want to cancel reading and writing images
+                    generator.progressUpdated += (index, progress) =>
+                    {
+                        reporter.ReportProgress(index, progress);
+                    };
+
+                    processor.progressUpdated += (index, progress) =>
+                    {
+                        reporter.ReportProgress(index, progress);
+                    };
+
                     IntPtr Texture = IntPtr.Zero;
                     int width = 0;
                     int height = 0;
@@ -95,7 +109,6 @@ namespace Frontend
                     {
                         if (cancellationTokenSource.IsCancellationRequested)
                         {
-                            Console.WriteLine($"Cancelling Image {index}");
                             return;
                         }
                         
@@ -106,7 +119,8 @@ namespace Frontend
                             case "Generate":
                                 int.TryParse(split[2], out width);
                                 int.TryParse(split[3], out height);
-                                Texture = generator.Generate(width, height, cancellationTokenSource.Token);
+                                Texture = generator.Generate(width, height, cancellationTokenSource.Token, index);
+                                reporter.CommandFinished(index);
                                 break;
                             case "Input":
                                 Texture = misc.Input(split[1], out width, out height);
@@ -119,13 +133,14 @@ namespace Frontend
                             case "Blur":
                                 int.TryParse(split[1], out int w);
                                 int.TryParse(split[2], out int h);
-                                Texture = processor.BlurImage(Texture, width, height, w, h, cancellationTokenSource.Token);
+                                Texture = processor.BlurImage(Texture, width, height, w, h, cancellationTokenSource.Token, index);
+                                reporter.CommandFinished(index);
                                 
                                 break;
                             case "RandomCircles":
                                 int.TryParse(split[1], out int n);
                                 float.TryParse(split[2], out float r);
-                                Texture = processor.DrawCirclesImage(Texture, width, height, r, n, cancellationTokenSource.Token);
+                                Texture = processor.DrawCirclesImage(Texture, width, height, r, n, cancellationTokenSource.Token, index);
                                 
                                 break;
                             case "Room":
@@ -133,19 +148,19 @@ namespace Frontend
                                 float.TryParse(split[2], out float y1);
                                 float.TryParse(split[3], out float x2);
                                 float.TryParse(split[4], out float y2);
-                                Texture = processor.Room(Texture, width, height, x1, y1, x2, y2, cancellationTokenSource.Token);
+                                Texture = processor.Room(Texture, width, height, x1, y1, x2, y2, cancellationTokenSource.Token, index);
                                 
                                 break;
                             case "ColorCorrection":
                                 float.TryParse(split[1], out float red);
                                 float.TryParse(split[2], out float green);
                                 float.TryParse(split[3], out float blue);
-                                Texture = processor.ColorCorrectionImage(Texture, width, height, red, green, blue, cancellationTokenSource.Token);
+                                Texture = processor.ColorCorrectionImage(Texture, width, height, red, green, blue, cancellationTokenSource.Token, index);
                                 
                                 break;
                             case "GammaCorrection":
                                 float.TryParse(split[1], out float gamma);
-                                Texture = processor.GammaCorrectionImage(Texture, width, height, gamma, cancellationTokenSource.Token);
+                                Texture = processor.GammaCorrectionImage(Texture, width, height, gamma, cancellationTokenSource.Token, index);
                                 
                                 break;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -23,6 +24,9 @@ namespace MinImage
     partial class ImageProcesser
     {
         private const string LibName = "ImageGenerator";
+        
+        // Event to handle the progress bar
+        public event Action<int, int>? progressUpdated;
 
         [UnmanagedFunctionPointer(CallingConvention.StdCall)]
         private delegate bool TryReportCallback(float progress);
@@ -43,7 +47,7 @@ namespace MinImage
         /// <param name="h"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public IntPtr BlurImage(IntPtr texture, int width, int height, int w, int h, CancellationToken cancellationToken)
+        public IntPtr BlurImage(IntPtr texture, int width, int height, int w, int h, CancellationToken cancellationToken, int index)
         {
             try
             {
@@ -51,9 +55,9 @@ namespace MinImage
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
-                        Console.WriteLine($"Cancelled blurring");
                         return false;
                     }
+                    progressUpdated?.Invoke(index, (int)(progress * 100));
                     return true;
                 }
 
@@ -82,7 +86,7 @@ namespace MinImage
         /// <param name="circleCount"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public IntPtr DrawCirclesImage(IntPtr texture, int width, int height, float radius, int circleCount, CancellationToken cancellationToken)
+        public IntPtr DrawCirclesImage(IntPtr texture, int width, int height, float radius, int circleCount, CancellationToken cancellationToken, int index)
         {
 
             try
@@ -101,9 +105,9 @@ namespace MinImage
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
-                        Console.WriteLine($"Cancelled drawing circles");
                         return false;
                     }
+                    progressUpdated?.Invoke(index, (int)(progress * 100));
                     return true;
                 }
 
@@ -133,7 +137,7 @@ namespace MinImage
         /// <param name="blue"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public IntPtr ColorCorrectionImage(IntPtr texture, int width, int height, float red, float green, float blue, CancellationToken cancellationToken)
+        public IntPtr ColorCorrectionImage(IntPtr texture, int width, int height, float red, float green, float blue, CancellationToken cancellationToken, int index)
         {
             try
             {
@@ -141,9 +145,9 @@ namespace MinImage
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
-                        Console.WriteLine($"Cancelled color correction");
                         return false;
                     }
+                    progressUpdated?.Invoke(index, (int)(progress * 100));
                     return true;
                 }
 
@@ -171,7 +175,7 @@ namespace MinImage
         /// <param name="gamma"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public IntPtr GammaCorrectionImage(IntPtr texture, int width, int height, float gamma, CancellationToken cancellationToken)
+        public IntPtr GammaCorrectionImage(IntPtr texture, int width, int height, float gamma, CancellationToken cancellationToken, int index)
         {
             try
             {
@@ -179,9 +183,9 @@ namespace MinImage
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
-                        Console.WriteLine($"Cancelled gamma correction");
                         return false;
                     }
+                    progressUpdated?.Invoke(index, (int)(progress * 100));
                     return true;
                 }
 
@@ -212,7 +216,7 @@ namespace MinImage
         /// <param name="y2"></param>
         /// <param name="cancellationToken"></param>
         /// <returns></returns>
-        public IntPtr Room(IntPtr texture, int width, int height, float x1, float y1, float x2, float y2, CancellationToken cancellationToken)
+        public IntPtr Room(IntPtr texture, int width, int height, float x1, float y1, float x2, float y2, CancellationToken cancellationToken, int index)
         {
             if (x1 > x2)
             {
@@ -251,9 +255,9 @@ namespace MinImage
                 {
                     if (cancellationToken.IsCancellationRequested)
                     {
-                        Console.WriteLine($"Cancelled drawing rectangle");
                         return false;
                     }
+                    progressUpdated?.Invoke(index, (int)(progress * 100));
                     return true;
                 }
 
@@ -265,7 +269,6 @@ namespace MinImage
                 Marshal.FreeHGlobal(texture);
                 throw;
             }
-
             return texture;
         }
     }
