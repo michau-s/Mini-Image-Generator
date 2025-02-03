@@ -48,7 +48,7 @@ It is possible to cancel the execution of the program by pressing `x`, in this c
 ## Implementation
 Five primary classes have been implemented:
 - **ImageGenerator** - used for all "generate" methods.
-- **ImageProcessor** - used for all methods processing methods.
+- **ImageProcessor** - used for all processing methods.
 - **InputParser** - used for checking if the input provided by the user is in the correct format.
 - **ProgressReporter** - used for displaying and handling the progress bar through an event, each command periodically reports it's progress to the reporter.
 - **MiscellaneousCommands** - For utility commands.
