@@ -30,7 +30,7 @@ Generate 10 1024 1024 | Blur 4 4 | RandomCircles 10 50 | ColorCorrection 0,1 0,1
 <p align="center">
   <img src="./Docs/Images/sample.jpeg" 
        alt="Sample Image" 
-       style="width: 80%;"/>
+       style="width: 60%;"/>
 </p>
 
 One can also process images from the disk by starting the chain with `Input <filename>`. It is important to note that without the `Output <filename>` no images will be written to the disk. The default path is the one the executable is in.
