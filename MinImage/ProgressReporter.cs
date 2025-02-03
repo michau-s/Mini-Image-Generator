@@ -4,8 +4,6 @@ using System.Text;
 
 namespace MinImage
 {
-    // https://github.com/WUT-MiNI/P3A_24Z_Lab11
-
     /// <summary>
     /// Struct used to store worker data
     /// </summary>
@@ -76,6 +74,9 @@ namespace MinImage
             }
         }
 
+        /// <summary>
+        /// Used to redraw the progress bars on the screen
+        /// </summary>
         private void Redraw()
         {
             lock (obj)
@@ -94,6 +95,13 @@ namespace MinImage
             }
         }
 
+        /// <summary>
+        /// Used to draw the progress bar once
+        /// </summary>
+        /// <param name="progress"></param>
+        /// <param name="total"></param>
+        /// <param name="barSize"></param>
+        /// <returns></returns>
         private string DrawProgressBar(int progress, int total, int barSize)
         {
             double percentage = (double)progress / total;

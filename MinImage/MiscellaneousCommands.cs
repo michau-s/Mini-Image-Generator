@@ -23,7 +23,6 @@ namespace MinImage
         /// <param name="path"></param>
         public void Output(IntPtr texture, int width, int height, string path)
         {
-            // from the starter code
             ImSh.Image<ImSh::PixelFormats.Rgba32> image = new(width, height);
             image.DangerousTryGetSinglePixelMemory(out Memory<ImSh::PixelFormats.Rgba32> memory);
             var span = memory.Span;
@@ -43,7 +42,6 @@ namespace MinImage
                 }
             }
 
-            // from the starter code
             ImSh.Formats.Jpeg.JpegEncoder encoder = new();
             FileStream fs = new(path, FileMode.OpenOrCreate, FileAccess.Write);
             encoder.Encode(image, fs);

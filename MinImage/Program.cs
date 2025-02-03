@@ -122,7 +122,6 @@ namespace Frontend
                         
                         var split = command.Split(' ');
 
-                        // The senior programmer fears the intern's switch statement
                         switch (split[0])
                         {
                             case "Generate":
